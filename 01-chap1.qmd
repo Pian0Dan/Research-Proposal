@@ -1,5 +1,4 @@
 \pagenumbering{arabic}\setcounter{page}{1}
-
 # Introduction {#sec-intro}
 
 ```{r}
