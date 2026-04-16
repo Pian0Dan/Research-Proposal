@@ -1,0 +1,71 @@
+---
+format: gfm
+---
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
+
+# Planner
+
+## Week 1
+
+- Read through Bailey's paper - Done
+- Establish meetings - Done
+- Email Natalia - Done
+- Prepare GitHub - Done
+
+## Week 2
+
+- Quarto Template - Imported
+- GitHub Repo - Setup
+- Thesis section mapping - In progress
+- Add sections: Introduction of the Topic, Literature Review, Research Question and Research Plan, Preliminary Results - Done
+- Try some sample data with Panelot and see how it performs, what it does, what I was expecting
+- Read Optimisation Book - Chapter 1 read
+
+## Week 3
+- Change meeting times - Adjusted to Thursdays 2:30-3:30pm
+- Develop research question - added to 03-chap3
+- Make more notes on linear book and Natures paper
+
+## Week 4
+- Write down the algorithm that is being used and understand what it is doing well enough to explain it to someone else - 
+- Write up for points 1 - 3 of Research Proposal guideline
+- Export PDF of write-up to share with Di and Jess ahead of next meeting
+
+## Week 5
+- Generate PDF
+- Give clear background to the problem and why we need sortition
+- Describe the objective problem, what representativeness is, why it is important and how it is measured
+- Summarise learnings from articles for visualisation methods, and from Natures papers (Flanigan et al.)
+
+- Research direction: Measure representation of intersectional minorities; how do we use visualisation tools to show the discrepancy; consider how simulation might look to showcase this
+
+- Additional tool for situations where you want specific joint traits for subsets
+- How could this be used/balanced in general panel situations, without reintroducing representative burden
+
+## Mid-sem break
+- Edit and rearrange background; change first paragraph motivation to be more about why the panels are made, why it is important and why it is relevant to the audience
+- Summarise literature on multivariate categorical visualisation
+- Show how many panels a person ends up on;
+- ggdibbler, mosaicplots, double decker plots
+- Define quotas and how they play into the optimisation problem
+- Reinforce requirements of representativeness and of fairness
+
+- Use UpSet plot to show different intersections across different iterations of panels
+
+## Week 6
+
+### For discussion
+- nDF's 10x figure based on @redmanHowRecruitParticipants has no stated academic basis or rigour; could be interesting to evaluate validity as a whole as part of simulation
+- As stated above, UpSet plot could be used to show what intersections are present in which panels and at what quantities
+- How will simulation look? Will it just be using the Panelot tool, or will we recreate the algorithm in R somehow for reproducibility?
+- Parallel coordinate plot to show whether a specific individual of defined traits gets placed in 0 or 1 across all generated panel options?
+- Would panel selection tool improvement (for intersection inclusion) just be a matter of adding a constraint that makes it so only panels with a minimum number of individuals meeting concatenated quota are feasible? I.e. algorithm still runs to maximise/minimise likelihoods, but with the constraint of ensuring the combination exists in panels before ruling them feasible and adding to portfolio before looping
+- Should we pivot to Goldilocks over LexiMin, since it appears to be the newest ideal? LexiMin is the one currently being used in practice, but Goldilocks is in the works of being made into a public tool as well; could ask to be put in touch with Bailey to see this preview and discuss (she is a contact through work)
+
+### Plan
+- Condense existing content and rejig to fit research proposal structure
+- Add more editorial section to intro after the aim is stated (refer to state of representativeness in politics, potentially use existing panel example section but move it earlier)
+- Data structure summary to motivate visualisation techniques
+- Attempt mini sample structure and visualisations
+- Continue lit review, but not main

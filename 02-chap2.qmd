@@ -1,0 +1,97 @@
+# Literature Review {#sec-litreview}
+
+## Representation and Sortition
+
+### What does it mean to be representative?
+
+The main aim of any and all selection methods within sortition is to create a panel that is fair and representative of the population. But what does this actually mean?
+
+Fairness refers to the idea that the selection process should be transparent, unbiased, and inclusive. It should give everyone an equal chance of being selected, regardless of their background or characteristic, which presents a likelihood difference minimisation challenge. Systematically, this is typically achieved through introducing randomness to selection processes [@Flanigan2021FairAF], as not doing so immediately introduces implicit selection bias.
+
+Alongside this, representativeness refers to the idea that the selected panel should accurately reflect the demographics and perspectives of the population from which it was built. This means that the panel should be diverse and inclusive, and should contain individuals from a range of prediagnosed backgrounds of interest. This can be assessed directly by comparing demographic compositions of the selected panels against the population from which it was originally drawn.
+
+Approaching it systematically, the sortition process can be thought of in four stages:
+
+- Defining the population and traits of interest
+
+- Sampling from the population (through survey or other outreach)
+
+- Panel selection (through algorithmic means or other method)
+
+- Panel evaluation, confirmation and engagement
+
+
+Each of these steps presents an opportunity for bias to be introduced, and for the panel to become less representative of the population. Which is why it is crucial to evaluate the level of representativeness (or _potential_ representativeness) at each stage, and to understand how different factors may affect it.
+
+For example, if the population of interest and the investigated traits are poorly defined, then the selection process may not be able to capture the diversity and perspectives of the desired group, leading to a less representative panel. This presents a challenge in itself, given most population descriptions (as previously discussed) are often based on disjoint demographic characteristics and do not provide a way to capture intersectionality, which is a key aspect of representativeness. However, this may be beyond the scope of this thesis, as it is already a foray into broader data collection and storage methods, but it is important to keep in mind that representation goes beyond the margin.
+
+Similarly, if certain groups are less likely to respond to the survey, then they may be underrepresented in the pool of potential panelists, which can lead to a less representative panel from the outset. Illustratively--if there were to be no female respondents for a certain survey in an area comprised of 60% women, then the representativeness assumption (and goal) would be majorly violated before an attempt at putting a panel together has even been made. Situations like these raise the question of how we can account for this non-response bias, and whether we can use visualisation tools to show the discrepancy between the pool and the population (which leads back to part of this thesis' aim).
+
+## Panel Selection 
+
+### Problem Definition
+
+Suppose there is a pool of individuals numbered 1 to n.
+
+We want to choose a panel of size k.
+
+Let K be the set of all feasible panels. A feasible panel is any group of k individuals that satisfies the required constraints (which generally take the form of quotas).
+
+These quotas will be certain desired counts, or ranges of counts, of individuals belonging to a certain trait class (e.g. 20-22 males, or 15-17 rural). These traits and quotas, by extension, will have direct ties to the demographics that have been deemed crucial to represent for a certain project's population group. Tying back to the established background--the core goal of sortition, then, is to build a panel which meets the quota constraints, equitably, robustly, and in a way that represents the population from which it was drawn.
+
+### Existing Methods
+
+#### Non-algorithmic/self-selection
+
+This is the most basic method of panel selection, where individuals are simply allowed to self-select into the panel. This can be done through a variety of means, such as advertising the opportunity to participate in the panel and allowing individuals to sign up on a first-come, first-served basis. However, these types of methods are often not very effective at creating representative panels, as they can a) lead to self-selection bias (as involvement will be tied to exposure and not random chance, those who put their hand up of their own volition are more likely to have pre-formed perspectives, ahead of the panel process), thus possibly not capturing the diversity and perspectives of the population, and b) lead to lower-than-desired engagement, as it does not guarantee any particular level of exposure or direct engagement in the first place.
+
+##### LEGACY heuristic (I can't find original source, but it is mentioned in @Flanigan2021FairAF)
+
+Already a systematic improvement over non-algorithmic methods; the LEGACY selection heuristic takes a given sample of respondents and selects individuals one-by-one until the panel is full. At each step, the heuristic calculates a "need" value to identify the trait that is currently furthest from the desired count in the panel. LEGACY then selects a random individual from the pool who possesses that trait. If selecting any given individual would cause the panel to hit the upper quota for any trait, then all other individuals with that trait are removed from the pool before the next selection. This process is repeated until it either becomes infeasible (exhausts the dataset before hitting overall quota, at which point it will restart), or builds a full panel with desired quota representation. LEGACY's process fulfils the base requirements of building a panel that meets the desired quotas, but it does not necessarily maximise representativeness, as it does not take into account the likelihood of selection for different individuals (allowing them to just be 0%, in extreme cases), and it does not attempt to minimise the maximum deviation from equal selection chance across all individuals.
+
+#### MaxiMin and MiniMax [@baharavFairManipulationRobustTransparent2024]
+
+This aforementioned shortcoming is then addressed by our first algorithmic sorition methods: MaxiMin and MiniMax, though these both tackle the problem in opposite ways and with differing goals. MaxiMin, as the name would suggest, is a selection algorithm that generates potential panels and selection probabilities and then sets out to maximise the minimum selection probability of the set. This reduces the likelihood of an individual never being chosen (improves fairness) but makes the method quite susceptible to manipulation, if an individual elects as belonging to certain quota groups with lesser representation in the sample. Thus, leading to potential representative burden. Inversely, MiniMax aims to minimise the maximum probability of an individual being selected, with the aim of making selection more robust (less vulnerable to manipulation). However, this then comes at the cost of fairness, as the issue of potential 0% selection likelihood returns.
+
+
+#### LexiMin [@Flanigan2021FairAF]
+
+LexiMin, or lexicographic minimisation, is a method of panel selection similar to MaxiMin, that aims to maximise the minimum likelihood of selection, but for each individual being selected sequentially (rather than just the outright minimum). It works by first identifying the individual with the lowest selection chance, and then selecting panel combinations that make this individual's selection chance as high as possible. This process is repeated for each individual in order of their selection likelihood until overall selection chance is maximised and, ideally, made as equal as possible across all participants. This ensures that each individual has the highest possible chance of being selected. But this trait of LexiMin can, like MaxiMin, make it vulnerable to manipulation.
+
+#### Goldilocks [@baharavFairManipulationRobustTransparent2024]
+
+Bringing us to the supposed current gold standard: the aptly named "Goldilocks" sortition algorithm. Goldilocks is structured in such a way that it simultaneously attempts to maximise minimum selection probabilities (improve fairness) and minimise maximum selection probabilities (improve robustness), providing a "best of both worlds" solution to the problem by averaging outcomes.
+
+### New Investigation
+
+Across all of these previous algorithmic techniques, it is noted that stratification for combinations of demographic traits is not included within their decision-making designs--focusing instead purely on affecting individual selection chances based on quotas of each demographic trait at the margin. This is a major limitation, as it means that the selection process may not be able to entirely capture the diversity and perspectives of the desired group, leading to a less representative panel. In some situations (e.g. supporting side-panels built for specific subgroups, communities where there are known intersectional minorities of interest), it may be beneficial, or even necessary, to ensure the inclusion of specific intersectional combinations of traits in order to truly represent a given population. Though this limitation is generally mitigated in practice by bringing in "specialist speakers" to talk to the panel during their deliberation processes [@redmanHowRecruitParticipants], this still is not the same type of inclusion by nature, as being directly part of the panel and decision-making process.
+
+The extent to which intersectional inclusion happens naturally through current methods will be evaluated in the later simulations. We will then also test the effects of further imposing combinational quotas on the representative burden, and on the selection probabilities of different individuals, to see whether this is a feasible way to ensure the representation of intersectional minorities in  situations where it is deemed necessary.
+
+## Visualisation Methods
+
+In order to evaluate the representativeness of selected panels, we will use a variety of visualisation methods to show how the distribution of traits in the selected panel compares to the overall population, and to identify any discrepancies or biases in the selection process. Some potentially useful visualisation methods include: bar charts, mosaic plots, double decker plots, UpSet plots and parallel coordinate plots.
+
+First, it will be of use to just do some illustrative graphing to show densities within the distribution across traits, in the form of bar charts. These will give a rough visual idea of the breakdown of the population and samples within the simulation, setting up some expectations for how representation should look in further visualisations. From there, either mosaic or double decker plots will be useful for depicting the proportion of given demographic traits that are selected for the panels. Finally, UpSet plots [@conwayUpSetRPackageVisualization2017] will be an effective way to showcase the intersections that exist in generated panels, as they offer a visual link between demographic variables, as well as frequency counts to highlight how often these occur within a given panel.
+
+
+-- ignore the summaries --
+
+### Parallel coordinate plots [@vanderplasPenguinsGoParallel2023a]
+
+- Can help to show the distribution of traits across the selected panel and how it compares to the overall population.
+- Can also show the trade-offs between different traits and how they are balanced in the selection process
+- Can be used to identify any segments of the population that are underrepresented in the selected panel, and to highlight any potential biases in the selection process.
+
+
+### Matrix-based set representation (UpSetR) [@conwayUpSetRPackageVisualization2017]
+
+- Can be used to show how different traits connect with each other and how they are distributed across the distribution and/or selected panel.
+- Can help to identify any clusters of traits that are overrepresented or underrepresented in the selected panel, and to show how different traits interact with each other in the selection process.
+- Can highlight specific combinations of traits that are of interest, and show how they are represented in the selected panel compared to the overall population. (Though there is no way to gauge the prevalence of these combinations in the population, beyond anecdotal observations)
+
+--
+
+### Attribute distribution analysis
+
+- Showcase how the distribution of traits in the selected panel compares to the overall population, and to identify any discrepancies or biases in the selection process.
