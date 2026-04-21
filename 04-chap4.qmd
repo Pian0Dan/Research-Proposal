@@ -1,3 +1,58 @@
 # Preliminary Results {#sec-preresults}
 
-This chapter contains a summary of the context in which your research is set.
+My visualisation attempts!
+
+
+```{r}
+# Data building
+
+# Set seed
+set.seed(13)  # for reproducibility
+
+## Exact counts
+age <- c(
+  rep("18-29", 250),
+  rep("30-44", 300),
+  rep("45-64", 250),
+  rep("65+", 200)
+)
+
+gender <- c(
+  rep("Male", 480),
+  rep("Female", 480),
+  rep("Non-binary", 40)
+)
+
+# Shuffle to mix values
+age <- sample(age)
+gender <- sample(gender)
+
+# Combine and add pool_member_id for Panelot functionality
+sim_data <- data.frame(Age = age, Gender = gender)
+sim_data$pool_member_id <- 1:nrow(sim_data)
+sim_data <- sim_data[, c("pool_member_id", "Age", "Gender")]
+
+# Check that proportions came out right
+prop.table(table(sim_data$Gender))
+prop.table(table(sim_data$Age))
+```
+
+```{r}
+# Visualising
+
+# Mosaic Plot
+
+# Build contingency table
+tab <- table(sim_data$Age, sim_data$Gender)
+tab
+
+# Build plot
+mosaicplot(
+  tab,
+  main = "Age vs Gender Distribution",
+  xlab = "Gender",
+  ylab = "Age Group",
+  col = c("pink", "lightblue", "purple"),
+  border = "white"
+)
+```
