@@ -69,3 +69,11 @@ format: gfm
 - Data structure summary to motivate visualisation techniques
 - Attempt mini sample structure and visualisations
 - Continue lit review, but not main
+
+## Week 7
+
+### For discussion
+- How are the graphs?
+- Is there no chance we just dump the Python code to make it more streamlined for reproducibility?
+
+### Plan
