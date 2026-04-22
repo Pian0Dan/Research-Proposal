@@ -4,6 +4,21 @@ My visualisation attempts!
 
 
 ```{r}
+#| label: load_packages
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyr)
+library(tsibble)
+library(feasts)
+library(fable)
+library(UpSetR)
+library(here)
+library(tidyverse)
+```
+
+```{r}
 # Data building
 
 # Set seed
@@ -29,22 +44,28 @@ gender <- sample(gender)
 
 # Combine and add pool_member_id for Panelot functionality
 pop_data <- data.frame(Age = age, Gender = gender)
-pop_data$pool_member_id <- 1:nrow(pop_data)
-pop_data <- pop_data[, c("pool_member_id", "Age", "Gender")]
+pop_data$pool_member_identifier <- 1:nrow(pop_data)
+pop_data <- pop_data[, c("pool_member_identifier", "Age", "Gender")]
 
 # Check that proportions came out right
 prop.table(table(pop_data$Gender))
 prop.table(table(pop_data$Age))
 ```
 
-```{r}
-# Visualising population
+## Visualising population
 
+```{r}
 # Build contingency table
 pop_tab <- table(pop_data$Age, pop_data$Gender)
 pop_tab
+```
 
-# Build Mosaic Plot
+### Build Mosaic Plot
+
+```{r}
+#| label: fig-pop-mos
+#| fig-cap: "Population Mosaic Plot"
+
 mosaicplot(
   pop_tab,
   main = "Age vs Gender Distribution",
@@ -54,7 +75,14 @@ mosaicplot(
   border = "white"
 )
 
-# Build UpSet Plot
+
+```
+
+@fig-pop-mos
+
+### Build UpSet Plot
+```{r}
+# Prep UpSet Plot Data
 
 upset_pop_data <- pop_data %>%
   mutate(
@@ -66,6 +94,11 @@ upset_pop_data <- pop_data %>%
     Female  = as.integer(Gender == "Female"),
     `Non-binary` = as.integer(Gender == "Non-binary")
   )
+```
+
+```{r}
+#| label: fig-pop-ups
+#| fig-cap: "Population UpSet Plot"
 
 upset(
   upset_pop_data,
@@ -74,7 +107,6 @@ upset(
   mainbar.y.label = "Number of pool members",
   sets.x.label = "Set size"
 )
-
 ```
 
 ```{r}
@@ -100,15 +132,22 @@ sur_select <- sur_data %>%
   filter(Responded == "Yes")
 ```
 
-```{r}
-# Visualising survey sample
 
+## Visualising survey sample
+
+```{r}
 # Make contingency table
 
 sur_tab <- table(sur_select$Age, sur_select$Gender)
 sur_tab
 
-# Mosaic plot
+```
+
+### Mosaic plot
+
+```{r}
+#| label: fig-sur-mos
+#| fig-cap: "Survey Mosaic Plot"
 
 mosaicplot(
   sur_tab,
@@ -118,8 +157,12 @@ mosaicplot(
   col = c("pink", "lightblue", "purple"),
   border = "white"
 )
+```
 
-# Make UpSet Plot
+### Make UpSet Plot
+
+```{r}
+# Prep UpSet plot data
 
 upset_sur_data <- sur_select %>%
   mutate(
@@ -131,6 +174,11 @@ upset_sur_data <- sur_select %>%
     Female  = as.integer(Gender == "Female"),
     `Non-binary` = as.integer(Gender == "Non-binary")
   )
+```
+
+```{r}
+#| label: fig-sur-ups
+#| fig-cap: "Survey UpSet Plot"
 
 upset(
   upset_sur_data,
@@ -139,5 +187,91 @@ upset(
   mainbar.y.label = "Number of pool members",
   sets.x.label = "Set size"
 )
+```
 
+```{r}
+# Generate quota CSV
+
+quota_df <- data.frame(
+  category = c(rep("Age", 4), rep("Gender", 3)),
+  name     = c("18-29", "30-44", "45-64", "65+", "Male", "Female", "Non-binary"),
+  min      = c(6, 8, 9, 7, 14, 14, 2),
+  max      = c(6, 8, 9, 7, 14, 14, 2)
+)
+
+quota_df
+
+# Output quota CSV
+
+write_csv(quota_df, here("data/categories.csv"))
+
+# Output survey selected CSV
+
+write_csv(sur_select, here("data/pool.csv"))
+```
+
+```{r}
+# Selected panel members (lottery with seed 13)
+
+panel_ids <- c(33, 34,	234, 235,	340,	349,	351,	407,	410,	424,	426,	440,	470,	488,	514,	515,	602,	615,	643,	684,	689,	742,	755,	840,	847,	913,	939,	957,	958,	980)
+
+# Filter for selected panel members
+
+pan_select <- sur_select %>%
+  filter(pool_member_identifier %in% panel_ids)
+```
+
+
+## Visualising panel sample
+
+```{r}
+# Make contingency table
+
+pan_tab <- table(pan_select$Age, pan_select$Gender)
+pan_tab
+```
+
+### Mosaic Plot
+
+```{r}
+#| label: fig-pan-mos
+#| fig-cap: "Panel Mosaic Plot"
+
+mosaicplot(
+  pan_tab,
+  main = "Age vs Gender Distribution",
+  xlab = "Gender",
+  ylab = "Age Group",
+  col = c("pink", "lightblue", "purple"),
+  border = "white"
+)
+```
+
+### UpSet Plot
+
+```{r}
+# Prep UpSet Plot data
+
+upset_pan_data <- pan_select %>%
+  mutate(
+    `18-29` = as.integer(Age == "18-29"),
+    `30-44` = as.integer(Age == "30-44"),
+    `45-64` = as.integer(Age == "45-64"),
+    `65+`   = as.integer(Age == "65+"),
+    Male    = as.integer(Gender == "Male"),
+    Female  = as.integer(Gender == "Female"),
+    `Non-binary` = as.integer(Gender == "Non-binary")
+  )
+```
+
+```{r}
+#| label: fig-pan-ups
+#| fig-cap: "Panel UpSet Plot"
+
+upset(
+  upset_pan_data,
+  sets = c("18-29", "30-44", "45-64", "65+", "Male", "Female", "Non-binary"),
+  keep.order = TRUE,
+  mainbar.y.label = "Number of pool members",
+  sets.x.label = "Set size")
 ```

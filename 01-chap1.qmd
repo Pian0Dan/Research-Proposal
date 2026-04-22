@@ -6,14 +6,21 @@
 #| include: false
 library(dplyr)
 library(ggplot2)
+library(readr)
 library(tidyr)
 library(tsibble)
 library(feasts)
 library(fable)
 library(UpSetR)
+library(here)
+library(tidyverse)
 ```
 
+### Topic
+
 This thesis aims to evaluate whether current sortition methods and ideologies lead to actually representative panels in practice. Through simulation and visualisation of algorithm performance, we will determine whether current tools are performing as expected and producing panels that are actually representative.
+
+### Background and Motivation
 
 In a social landscape where the public is growing progressively disillusioned with its representation in politics [@landemoreOpinionNoShy2026], it is important to consider ways in which we can foster more inclusive decision-making practices. One way of achieving this, adopted recently by an increasing number of institutions, including the Parisian [@ParisCreatesPermanent], Irish [@walshDissatisfiedEngagedCitizen2021], and British Columbian [@wardExperimentPoliticalCommunication2008] governments, is using sortition to create panels that are more representative of the population for political discussions and deliberations. As a result, the need for fair and representative methods of building panels is only growing, and progress is being made in the structure of selective algorithms. However, there are still many challenges to overcome in order to ensure that these panels consistently achieve the level of representation that they set out to.
 
@@ -23,4 +30,4 @@ According to @Flanigan2021FairAF, sortition creates groups that are statistical 
 
 One of the main roadblocks in sortition is ensuring that the selection process is transparent and fair, and that the panels are truly representative of the population in terms of demographics and perspectives. But this raises the questions of what it means to be fair, what it means to be representative, and how these look from a systematic perspective.
 
-Additionally, though some tools (such as LexiMin, from @Flanigan2021FairAF) have already been developed, there is a need for better methods and frameworks to evaluate the representativeness of these panels and to ensure that they are robust in achieving their goals.
+This study is motivated by a need to more rigorously understand the performance of existing tools, in order to evaluate their effectiveness in delivering representative panels. Prior to algorithmic means, panel selection was carried out through simple self-selection (response to survey/advertising) and proportional sampling to meet panel size requirements. As sortition began to grow more robust, the Legacy [@Flanigan2021FairAF] techniques started surfacing--these saw panels put together through simple choosing of respondents who met the most required "category" condition
