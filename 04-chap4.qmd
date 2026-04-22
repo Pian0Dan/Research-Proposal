@@ -28,31 +28,116 @@ age <- sample(age)
 gender <- sample(gender)
 
 # Combine and add pool_member_id for Panelot functionality
-sim_data <- data.frame(Age = age, Gender = gender)
-sim_data$pool_member_id <- 1:nrow(sim_data)
-sim_data <- sim_data[, c("pool_member_id", "Age", "Gender")]
+pop_data <- data.frame(Age = age, Gender = gender)
+pop_data$pool_member_id <- 1:nrow(pop_data)
+pop_data <- pop_data[, c("pool_member_id", "Age", "Gender")]
 
 # Check that proportions came out right
-prop.table(table(sim_data$Gender))
-prop.table(table(sim_data$Age))
+prop.table(table(pop_data$Gender))
+prop.table(table(pop_data$Age))
 ```
 
 ```{r}
-# Visualising
-
-# Mosaic Plot
+# Visualising population
 
 # Build contingency table
-tab <- table(sim_data$Age, sim_data$Gender)
-tab
+pop_tab <- table(pop_data$Age, pop_data$Gender)
+pop_tab
 
-# Build plot
+# Build Mosaic Plot
 mosaicplot(
-  tab,
+  pop_tab,
   main = "Age vs Gender Distribution",
   xlab = "Gender",
   ylab = "Age Group",
   col = c("pink", "lightblue", "purple"),
   border = "white"
 )
+
+# Build UpSet Plot
+
+upset_pop_data <- pop_data %>%
+  mutate(
+    `18-29` = as.integer(Age == "18-29"),
+    `30-44` = as.integer(Age == "30-44"),
+    `45-64` = as.integer(Age == "45-64"),
+    `65+`   = as.integer(Age == "65+"),
+    Male    = as.integer(Gender == "Male"),
+    Female  = as.integer(Gender == "Female"),
+    `Non-binary` = as.integer(Gender == "Non-binary")
+  )
+
+upset(
+  upset_pop_data,
+  sets = c("18-29", "30-44", "45-64", "65+", "Male", "Female", "Non-binary"),
+  keep.order = TRUE,
+  mainbar.y.label = "Number of pool members",
+  sets.x.label = "Set size"
+)
+
+```
+
+```{r}
+# Simulating survey
+
+set.seed(13)
+
+response_table <- expand.grid(
+  Age = c("18-29", "30-44", "45-64", "65+"),
+  Gender = c("Male", "Female", "Non-binary")
+)
+
+response_table$response_prob <- c(0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3)
+
+sur_data <- pop_data %>%
+  left_join(response_table, by = c("Age", "Gender")) %>%
+  mutate(
+    Responded = ifelse(rbinom(n(), 1, response_prob) == 1, "Yes", "No")
+  )
+
+# Filter for selected
+sur_select <- sur_data %>%
+  filter(Responded == "Yes")
+```
+
+```{r}
+# Visualising survey sample
+
+# Make contingency table
+
+sur_tab <- table(sur_select$Age, sur_select$Gender)
+sur_tab
+
+# Mosaic plot
+
+mosaicplot(
+  sur_tab,
+  main = "Age vs Gender Distribution",
+  xlab = "Gender",
+  ylab = "Age Group",
+  col = c("pink", "lightblue", "purple"),
+  border = "white"
+)
+
+# Make UpSet Plot
+
+upset_sur_data <- sur_select %>%
+  mutate(
+    `18-29` = as.integer(Age == "18-29"),
+    `30-44` = as.integer(Age == "30-44"),
+    `45-64` = as.integer(Age == "45-64"),
+    `65+`   = as.integer(Age == "65+"),
+    Male    = as.integer(Gender == "Male"),
+    Female  = as.integer(Gender == "Female"),
+    `Non-binary` = as.integer(Gender == "Non-binary")
+  )
+
+upset(
+  upset_sur_data,
+  sets = c("18-29", "30-44", "45-64", "65+", "Male", "Female", "Non-binary"),
+  keep.order = TRUE,
+  mainbar.y.label = "Number of pool members",
+  sets.x.label = "Set size"
+)
+
 ```

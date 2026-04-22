@@ -10,6 +10,7 @@ library(tidyr)
 library(tsibble)
 library(feasts)
 library(fable)
+library(UpSetR)
 ```
 
 This thesis aims to evaluate whether current sortition methods and ideologies lead to actually representative panels in practice. Through simulation and visualisation of algorithm performance, we will determine whether current tools are performing as expected and producing panels that are actually representative.
