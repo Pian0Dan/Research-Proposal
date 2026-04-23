@@ -30,4 +30,22 @@ According to @Flanigan2021FairAF, sortition creates groups that are statistical 
 
 One of the main roadblocks in sortition is ensuring that the selection process is transparent and fair, and that the panels are truly representative of the population in terms of demographics and perspectives. But this raises the questions of what it means to be fair, what it means to be representative, and how these look from a systematic perspective.
 
-This study is motivated by a need to more rigorously understand the performance of existing tools, in order to evaluate their effectiveness in delivering representative panels. Prior to algorithmic means, panel selection was carried out through simple self-selection (response to survey/advertising) and proportional sampling to meet panel size requirements. As sortition began to grow more robust, the Legacy [@Flanigan2021FairAF] techniques started surfacing--these saw panels put together through simple choosing of respondents who met the most required "category" condition
+Sortition methods have been evolving over time. Prior to algorithmic means, panel selection was carried out through simple self-selection (response to survey/advertising) and proportional sampling to meet panel size requirements. As sortition began to grow more robust, the Legacy [@Flanigan2021FairAF] techniques started surfacing--these saw panels put together through simple choosing of respondents who met the most required "category" condition
+
+# Contribution
+
+This study hopes to visualise the algorithm(s) used for sortition to demonstrate how they operate, the level of representation they achieve, and how they fall short when different issues are present in the data. There has been little done to showcase what these algorithms actually look like, which limits transparency and interpretability of the process.
+
+Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm.
+
+[How do we make unobservables more interesting? Do we assign response rate to an unobservable? Would there be a way to do weighted response probabilities?]
+
+## Methodology
+
+As the main focus of this paper is visualising algorithmic performance, we will follow a simulation study method. The study will construct an example "population", from which a "survey sample" will be selected at random with different assumed response rates, at which point the sample will be passed through into the publicly accessible Panelot sortition interface (based on @Flanigan2021FairAF LexiMin) to run selection lottery, select a specific panel with a set seed for reproducibility, then pulled back for comparison against the distributions at previous steps.
+
+## Expected results
+
+As the algorithms are not defined to inspect presence of particular intersections, it is expected that there will be no way to ensure a certain "type" of person will be present within the selected panel.
+
+## Small test case

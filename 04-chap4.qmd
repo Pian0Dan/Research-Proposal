@@ -2,7 +2,6 @@
 
 My visualisation attempts!
 
-
 ```{r}
 #| label: load_packages
 #| include: false
