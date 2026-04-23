@@ -75,5 +75,6 @@ format: gfm
 ### For discussion
 - How are the graphs?
 - Is there no chance we just dump the Python code to make it more streamlined for reproducibility?
+- How do we make unobservables more interesting? Do we assign response rate to an unobservable? Would there be a way to do weighted response probabilities?
 
 ### Plan
