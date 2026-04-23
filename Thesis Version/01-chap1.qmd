@@ -18,7 +18,7 @@ library(tidyverse)
 
 ## Topic
 
-This thesis aims to evaluate whether current sortition methods and ideologies lead to actually representative panels in practice. Through simulation and visualisation of algorithm performance, we will determine whether current tools are performing as expected and producing panels that are actually representative.
+This thesis aims to evaluate whether current sortition methods and ideologies lead to actually representative panels in practice. Through simulation and visualisation of algorithm performance, we will examine whether current tools are producing panels that are representative.
 
 ## Background and Motivation
 

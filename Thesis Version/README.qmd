@@ -78,3 +78,4 @@ format: gfm
 - How do we make unobservables more interesting? Do we assign response rate to an unobservable? Would there be a way to do weighted response probabilities?
 
 ### Plan
+- Add statement about how we want to make it possible to compare selection outcomes by visualising against population; making it easier to assess representative performance across panel selections
