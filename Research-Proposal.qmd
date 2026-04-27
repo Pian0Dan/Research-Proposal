@@ -26,6 +26,8 @@ library(fable)
 library(UpSetR)
 library(here)
 library(tidyverse)
+library(devtools)
+require(ggmosaic)
 ```
 
 # Introduction
@@ -62,6 +64,8 @@ Additionally, we hope to assess the difference in effectiveness and performance 
 
 As the main focus of this paper is visualising algorithmic performance, we will follow a simulation study method. The study will construct an example "population", from which a "survey sample" will be selected at random with different assumed response rates, at which point the sample will be fed into the publicly accessible Panelot sortition interface (based on @Flanigan2021FairAF LexiMin) to run selection lottery, select a specific panel with a set seed for reproducibility, then pulled back for comparison against the distributions at previous steps.
 
+The population will be constructed with a set number of traits of interest
+
 ## Expected results
 
 As the algorithms are not defined to inspect presence of particular intersections, it is expected that there will be no way to ensure a certain "type" of person (beyond defined marginal categories) will be present within the selected panel. As such, it is expected that there will be some extreme case panel iterations with entirely missing population-observed intersections.
@@ -71,6 +75,10 @@ As the algorithms are not defined to inspect presence of particular intersection
 To demonstrate the visualisation process, we will create a small test case with a population of 1000 individuals, with two traits of interest: age and gender. The age groups will be 18-29, 30-44, 45-64, and 65+, with proportions of 25%, 30%, 25%, and 20% respectively. The gender groups will be 48% male, 48% female, and 4% non-binary. These traits will be shuffled around and joined together to create individual observations. We will then simulate a survey with a response rate of 30% across all groups (for simplicity), and run the selection lottery to select a panel of 30 individuals, using the Panelot tool with a set seed for reproducibility. We will visualise the population, survey sample, and selected panel using mosaic plots and UpSet plots to show the distribution of traits and intersections at each stage.
 
 ```{r}
+#|echo: false
+#|include: false
+#|eval: false
+
 # Data building
 
 # Set seed
@@ -98,41 +106,66 @@ gender <- sample(gender)
 pop_data <- data.frame(Age = age, Gender = gender)
 pop_data$pool_member_identifier <- 1:nrow(pop_data)
 pop_data <- pop_data[, c("pool_member_identifier", "Age", "Gender")]
-
-# Check that proportions came out right
-prop.table(table(pop_data$Gender))
-prop.table(table(pop_data$Age))
 ```
 
-## Visualising population
+### Visualising population
+
+#### Demographic Summary (Pie Charts)
 
 ```{r}
-# Build contingency table
-pop_tab <- table(pop_data$Age, pop_data$Gender)
-pop_tab
+#| label: fig-pop-age-pie
+#| fig-cap: "Pie chart showing the distribution of age groups in the simulated population dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
+
+ggplot(pop_data, aes(x = "", fill = Age)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Age Distribution of Population") +
+  theme_void() +
+  scale_fill_manual(values = c("lightblue", "lightgreen", "lightpink", "lightyellow"))
 ```
 
-### Build Mosaic Plot
+```{r}
+#| label: fig-pop-gen-pie
+#| fig-cap: "Pie chart showing the distribution of genders in the simulated population dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
+
+ggplot(pop_data, aes(x = "", fill = gender)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Gender Distribution of Population") +
+  theme_void() +
+  scale_fill_manual(values = c("lightpink", "lightblue", "purple"))
+```
+
+Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. @fig-pop-age-pie and @fig-pop-gen-pie show the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
+
+#### Build Mosaic Plot
 
 ```{r}
 #| label: fig-pop-mos
-#| fig-cap: "Population Mosaic Plot"
-
-mosaicplot(
-  pop_tab,
-  main = "Age vs Gender Distribution",
-  xlab = "Gender",
-  ylab = "Age Group",
-  col = c("pink", "lightblue", "purple"),
-  border = "white"
-)
+#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated population dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
 
+ggplot(data = pop_data) +
+  geom_mosaic(aes(x = product(Gender, Age), fill = Gender)) +
+  labs(title = "Age vs Gender Distribution of Population",
+        x = "Age Group",
+        y = "Gender") +
+  theme_minimal() +
+  scale_fill_manual(values = c("pink", "lightblue", "purple"))
 ```
 
-@fig-pop-mos
+@fig-pop-mos shows the mosaic plot of the population dataset, which demonstrates the distribution of age groups across gender. The plot shows that the simulated population has more younger men than women, on average. It also shows that 12 intersections exist, connecting all traits from each category.
 
-### Build UpSet Plot
+#### Build UpSet Plot
 ```{r}
 # Prep UpSet Plot Data
 
@@ -150,7 +183,10 @@ upset_pop_data <- pop_data %>%
 
 ```{r}
 #| label: fig-pop-ups
-#| fig-cap: "Population UpSet Plot"
+#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated population dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
 upset(
   upset_pop_data,
@@ -160,6 +196,10 @@ upset(
   sets.x.label = "Set size"
 )
 ```
+
+@fig-pop-ups shows the UpSet plot of the population dataset, which demonstrates the counts of intersections of age groups across gender. The plot shows that the largest intersection is between the 30-44 age group and the female gender, followed by males for the same age group, so it would be hoped that these intersection would be well-represented in the selected panel.
+
+### Visualising survey sample
 
 ```{r}
 # Simulating survey
@@ -184,34 +224,27 @@ sur_select <- sur_data %>%
   filter(Responded == "Yes")
 ```
 
-
-## Visualising survey sample
-
-```{r}
-# Make contingency table
-
-sur_tab <- table(sur_select$Age, sur_select$Gender)
-sur_tab
-
-```
-
-### Mosaic plot
+#### Mosaic plot
 
 ```{r}
 #| label: fig-sur-mos
-#| fig-cap: "Survey Mosaic Plot"
+#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated survey sample dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
-mosaicplot(
-  sur_tab,
-  main = "Age vs Gender Distribution",
-  xlab = "Gender",
-  ylab = "Age Group",
-  col = c("pink", "lightblue", "purple"),
-  border = "white"
-)
+ggplot(data = sur_select) +
+  geom_mosaic(aes(x = product(Gender, Age), fill = Gender)) +
+  labs(title = "Age vs Gender Distribution of Survey Sample",
+        x = "Age Group",
+        y = "Gender") +
+  theme_minimal() +
+  scale_fill_manual(values = c("pink", "lightblue", "purple"))
 ```
 
-### Make UpSet Plot
+@fig-sur-mos shows the mosaic plot of the survey sample dataset, which demonstrates the distribution of age groups across gender in the simulated survey sample. The plot shows that the distribution has changed from the population dataset, with some groups being more or less represented than before. For example, the genders among ages are now less balanced across all age groups.
+
+#### Make UpSet Plot
 
 ```{r}
 # Prep UpSet plot data
@@ -228,9 +261,14 @@ upset_sur_data <- sur_select %>%
   )
 ```
 
+@fig-sur-ups shows the UpSet plot of the survey sample dataset, which demonstrates the counts of intersections of age groups across gender in the simulated survey sample. The plot shows that the largest intersection is still between the 30-44 age group and the female gender.
+
 ```{r}
 #| label: fig-sur-ups
-#| fig-cap: "Survey UpSet Plot"
+#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated survey sample dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
 upset(
   upset_sur_data,
@@ -242,6 +280,10 @@ upset(
 ```
 
 ```{r}
+#| echo: false
+#| include: false
+
+
 # Generate quota CSV
 
 quota_df <- data.frame(
@@ -263,6 +305,9 @@ write_csv(sur_select, here("data/pool.csv"))
 ```
 
 ```{r}
+#|echo: false
+#|include: false
+
 # Selected panel members (lottery with seed 13)
 
 panel_ids <- c(33, 34,	234, 235,	340,	349,	351,	407,	410,	424,	426,	440,	470,	488,	514,	515,	602,	615,	643,	684,	689,	742,	755,	840,	847,	913,	939,	957,	958,	980)
@@ -274,32 +319,35 @@ pan_select <- sur_select %>%
 ```
 
 
-## Visualising panel sample
+### Visualising panel sample
 
-```{r}
-# Make contingency table
-
-pan_tab <- table(pan_select$Age, pan_select$Gender)
-pan_tab
-```
-
-### Mosaic Plot
+#### Mosaic Plot
 
 ```{r}
 #| label: fig-pan-mos
-#| fig-cap: "Panel Mosaic Plot"
+#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated selected panel dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
-mosaicplot(
-  pan_tab,
-  main = "Age vs Gender Distribution",
-  xlab = "Gender",
-  ylab = "Age Group",
-  col = c("pink", "lightblue", "purple"),
-  border = "white"
-)
+ggplot(data = pan_select) +
+  geom_mosaic(aes(x = product(Gender, Age), fill = Gender)) +
+  labs(title = "Age vs Gender Distribution of Selected Panel",
+        x = "Age Group",
+        y = "Gender") +
+  theme_minimal() +
+  scale_fill_manual(values = c("pink", "lightblue", "purple"))
 ```
 
-### UpSet Plot
+@fig-pan-mos shows the mosaic plot of the selected panel dataset, which demonstrates the distribution of age groups across gender in the simulated selected panel. By the time we reach this step, we can see that the distribution has changed significantly from the population dataset. In fact, this particular iteration presents an extreme case where all younger panel members are female, all older members are male, and all non-binary members are in the oldest group.
+
+#### UpSet Plot
+
+```{r}
+# Data modification for cleaner UpSet plot
+
+
+```
 
 ```{r}
 # Prep UpSet Plot data
@@ -318,7 +366,10 @@ upset_pan_data <- pan_select %>%
 
 ```{r}
 #| label: fig-pan-ups
-#| fig-cap: "Panel UpSet Plot"
+#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated selected panel dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
 
 upset(
   upset_pan_data,
@@ -327,3 +378,41 @@ upset(
   mainbar.y.label = "Number of pool members",
   sets.x.label = "Set size")
 ```
+
+@fig-pan-ups shows the UpSet plot of the selected panel dataset, which demonstrates the counts of intersections of age groups across gender in the simulated selected panel. Echoing the distribution shift shown in the mosaic plot, the UpSet plot shows that a number of intersections are now missing. This was, to some extent, expected for the non-binary group, as only two members of this group were going to be selected regardless, meaning at least two intersections would not be represented. However, the complete absence of all younger male and non-binary members, as well as all older female members is a signifcant deviation from the population and survey sample datasets, and demonstrates the risk of insufficient representation when intersections are not directly addressed by the selection process.
+
+#### Demographic Summary (Pie Charts)
+
+```{r}
+#| label: fig-pan-age-pie
+#| fig-cap: "Pie chart showing the distribution of age groups in the simulated selected panel dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
+
+ggplot(pan_select, aes(x = "", fill = Age)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Age Distribution of Population") +
+  theme_void() +
+  scale_fill_manual(values = c("lightblue", "lightgreen", "lightpink", "lightyellow"))
+```
+
+```{r}
+#| label: fig-pan-gen-pie
+#| fig-cap: "Pie chart showing the distribution of genders in the simulated selected panel dataset"
+#| fig-pos: "H"
+#| fig-width: 4
+#| fig-height: 3.5
+
+ggplot(pan_select, aes(x = "", fill = Gender)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Gender Distribution of Population") +
+  theme_void() +
+  scale_fill_manual(values = c("lightpink", "lightblue", "purple"))
+```
+
+Bringing this back to the pie chart example from earlier, @fig-pan-age-pie and @fig-pan-gen-pie are notably identical to the population pie charts, as the marginal distributions of age and  gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
+
+This example is the crux of why sortition performance must be visually evaluated at the intersectional level, prior to any sort of deliberation or decision-making process, as it can reveal significant representativeness issues that may not be apparent from summary statistics alone, and which may impact the legitimacy and quality of the panel's outcomes. As, despite the fact that the panel seen in meets all marginal quotas, it is not representative of the population in a meaningful way, and may not be able to provide the intended benefits of sortition as a result.
