@@ -1,0 +1,8 @@
+category,name,min,max
+Age,18-29,6,6
+Age,30-44,8,8
+Age,45-64,9,9
+Age,65+,7,7
+Gender,Male,14,14
+Gender,Female,14,14
+Gender,Non-binary,2,2
