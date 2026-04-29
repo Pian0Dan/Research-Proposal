@@ -4,11 +4,9 @@ author:
 - name: Daniel Leo Loza
   degrees: B.Bus, AMusA
   email: dloz0001@student.monash.edu
-- name: Dr Pierre Curie
-  degrees: Nobel Prize, PhD
 phone: (03) 9905 2478
 email: BusEco-Econometrics@monash.edu
-organization: Acme Corporation
+organization: Honours Research Proposal, Monash University
 bibliography: references.bib
 format: report-pdf
 ---
