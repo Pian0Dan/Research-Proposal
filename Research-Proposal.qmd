@@ -113,7 +113,7 @@ pop_data <- pop_data[, c("pool_member_identifier", "Age", "Gender")]
 #| fig-cap: "Pie chart showing the distribution of age groups in the simulated population dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(pop_data, aes(x = "", fill = Age)) +
   geom_bar(width = 1) +
@@ -128,7 +128,7 @@ ggplot(pop_data, aes(x = "", fill = Age)) +
 #| fig-cap: "Pie chart showing the distribution of genders in the simulated population dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(pop_data, aes(x = "", fill = gender)) +
   geom_bar(width = 1) +
@@ -147,7 +147,7 @@ Industry practitioners often use pie charts to visualise the distribution of tra
 #| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated population dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 
 ggplot(data = pop_data) +
@@ -182,7 +182,7 @@ upset_pop_data <- pop_data %>%
 #| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated population dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 upset(
   upset_pop_data,
@@ -227,7 +227,7 @@ sur_select <- sur_data %>%
 #| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated survey sample dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(data = sur_select) +
   geom_mosaic(aes(x = product(Gender, Age), fill = Gender)) +
@@ -264,7 +264,7 @@ upset_sur_data <- sur_select %>%
 #| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated survey sample dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 upset(
   upset_sur_data,
@@ -324,7 +324,7 @@ pan_select <- sur_select %>%
 #| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated selected panel dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(data = pan_select) +
   geom_mosaic(aes(x = product(Gender, Age), fill = Gender)) +
@@ -359,7 +359,7 @@ upset_pan_data <- pan_select %>%
 #| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated selected panel dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 upset(
   upset_pan_data,
@@ -378,7 +378,7 @@ upset(
 #| fig-cap: "Pie chart showing the distribution of age groups in the simulated selected panel dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(pan_select, aes(x = "", fill = Age)) +
   geom_bar(width = 1) +
@@ -393,7 +393,7 @@ ggplot(pan_select, aes(x = "", fill = Age)) +
 #| fig-cap: "Pie chart showing the distribution of genders in the simulated selected panel dataset"
 #| fig-pos: "H"
 #| fig-width: 4
-#| fig-height: 3.5
+#| fig-asp: 0.825
 
 ggplot(pan_select, aes(x = "", fill = Gender)) +
   geom_bar(width = 1) +
