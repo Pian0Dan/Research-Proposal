@@ -132,3 +132,14 @@
   group is particularly small, seeing how it is represented in panels;
   what about if one is very large? What if both are present? Different
   response rates? Different sample sizes?
+
+## Week 8
+
+### For discussion
+- Interactive tool for visualisation; generate lottery -> store lottery -> input a seed number -> generate associated panel -> visualise panel against population
+- Thinking ahead to generalisation; in real world, we won't have access to rich intersection data--think census; only have age, gender, tenure, education disjointly
+    - My thinking is that we suggest using the survey intersection representation as a proxy for the population intersection representation; though, with particularly small datasets, this could skew pretty easily, but is maybe still better than absolutely nothing?
+    - Will see how closely this happens naturally within simulation, I guess
+
+### Plan
+- 
