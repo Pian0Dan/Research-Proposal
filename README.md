@@ -142,4 +142,8 @@
     - Will see how closely this happens naturally within simulation, I guess
 
 ### Plan
-- 
+- "Dashboard will help guide quota constraint choices and strengthen representativeness"
+- Make simulation scenario clearer; state explicit population n's and distribution shapes that will be tested
+- Fix captions to follow structure of "Relationship between [x] and [y] in the population shown as a [type of graph]. Colour indicates [z]. Width of the bars correspond to the count within the category. Every combination contains observations."
+- Add research plan timeline
+- Patchwork the pie charts; then mosaicplots if needed
