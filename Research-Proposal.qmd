@@ -11,6 +11,19 @@ bibliography: references.bib
 format: report-pdf
 ---
 
+# Are current sortition methods creating representative panels? A framework analysis {.unnumbered}
+
+Author: Daniel Leo Loza (B.Bus, AMusA)
+
+\vspace{-10pt}
+
+SID: 33842388
+
+\vspace{-10pt}
+
+Supervisor: Dr. Jessica Leung, Prof. Dianne Cook
+
+
 ```{r}
 #| label: load_packages
 #| include: false
@@ -26,6 +39,7 @@ library(here)
 library(tidyverse)
 library(devtools)
 require(ggmosaic)
+library(ggrepel)
 ```
 
 # Introduction
@@ -50,11 +64,15 @@ More recently, and of direct relevance to the current study, further iterations 
 
 However, there is limited literature on what the outputs of these look like. Additionally, it appears that none of these directly address or validate the presence of any particular intersections within the panels they produce, which presents a risk for insufficient representation.
 
-# Contribution
+# Research Design
 
-This study hopes to visualise the LexiMin algorithm currently used for sortition, to demonstrate how it operates, the level of representation it achieves, and how it falls short when different issues are present in the data. There has been little done to showcase what this algorithm actually looks like, which limits transparency and interpretability of the process.
+This study hopes to develop visual tools to understand the LexiMin algorithm in order to:
 
-Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm and how these are affected when certain trait groups are particularly small or large, or when response rates differ across groups.
+1. Demonstrate how it operates
+2. Measure the level of representation it achieves
+3. Investigate where and how it falls short
+
+There has been little done to showcase what this algorithm actually looks like, which limits transparency and interpretability of the process. Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm and how these are affected when certain trait groups are particularly small or large, or when response rates differ across groups.
 
 ## Methodology
 
@@ -142,7 +160,7 @@ Industry practitioners often use pie charts to visualise the distribution of tra
 
 ```{r}
 #| label: fig-pop-mos
-#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated population dataset"
+#| fig-cap: "Relationship between age and gender in the population shown as a mosaic plot. Colour indicates gender. Width of the bars correspond to the count within the category. Every combination contains observations."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -404,3 +422,6 @@ ggplot(pan_select, aes(x = "", fill = Gender)) +
 Bringing this back to the pie chart example from earlier, @fig-pan-age-pie and @fig-pan-gen-pie are notably identical to the population pie charts, as the marginal distributions of age and  gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
 
 This example is the crux of why sortition performance must be visually evaluated at the intersectional level, prior to any sort of deliberation or decision-making process, as it can reveal significant representativeness issues that may not be apparent from summary statistics alone, and which may impact the legitimacy and quality of the panel's outcomes. As, despite the fact that the panel seen in this case meets all marginal quotas, it is not representative of the population in a meaningful way, and may not be able to provide the intended benefits of sortition as a result. For this reason, we will be investigating ways to benchmark performance through visualisation, to make sure selected panels are representative before they are used for deliberation.
+
+## Research Plan
+
