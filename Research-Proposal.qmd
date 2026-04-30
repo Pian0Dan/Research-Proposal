@@ -14,7 +14,7 @@ format: report-pdf
 \clearpage
 \pagenumbering{arabic}
 
-# Are current sortition methods creating representative panels? A framework analysis {.unnumbered}
+# \huge Are current sortition methods creating representative panels? A framework analysis {.unnumbered}
 
 Author: Daniel Leo Loza (B.Bus, AMusA)
 
