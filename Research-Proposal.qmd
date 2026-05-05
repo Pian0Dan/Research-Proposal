@@ -24,7 +24,7 @@ SID: 33842388
 
 \vspace{-10pt}
 
-Supervisor: Dr. Jessica Leung, Prof. Dianne Cook
+Supervisors: Dr. Jessica Leung, Prof. Dianne Cook
 
 
 ```{r}
@@ -42,7 +42,7 @@ library(here)
 library(tidyverse)
 library(devtools)
 require(ggmosaic)
-library(ggrepel)
+library(patchwork)
 ```
 
 # Introduction
@@ -75,7 +75,7 @@ This study hopes to develop visual tools to understand the LexiMin algorithm in 
 2. Measure the level of representation it achieves
 3. Investigate where and how it falls short
 
-There has been little done to showcase what this algorithm actually looks like, which limits transparency and interpretability of the process. Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm and how these are affected when certain trait groups are particularly small or large, or when response rates differ across groups.
+There has been little done to showcase what this algorithm actually looks like, which limits transparency and interpretability of the process. Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm and how these are affected when certain trait groups are particularly small or large, or when response rates differ across groups. With these insights, we will then hope to establish a dashboard that will help guide quota constraint choices and strengthen representativeness.
 
 ## Methodology
 
@@ -128,13 +128,7 @@ pop_data <- pop_data[, c("pool_member_identifier", "Age", "Gender")]
 #### Demographic Summary (Pie Charts)
 
 ```{r}
-#| label: fig-pop-age-pie
-#| fig-cap: "Pie chart showing the distribution of age groups in the simulated population dataset"
-#| fig-pos: "H"
-#| fig-width: 4
-#| fig-asp: 0.825
-
-ggplot(pop_data, aes(x = "", fill = Age)) +
+p1 <- ggplot(pop_data, aes(x = "", fill = Age)) +
   geom_bar(width = 1) +
   coord_polar(theta = "y") +
   labs(title = "Age Distribution of Population") +
@@ -143,13 +137,7 @@ ggplot(pop_data, aes(x = "", fill = Age)) +
 ```
 
 ```{r}
-#| label: fig-pop-gen-pie
-#| fig-cap: "Pie chart showing the distribution of genders in the simulated population dataset"
-#| fig-pos: "H"
-#| fig-width: 4
-#| fig-asp: 0.825
-
-ggplot(pop_data, aes(x = "", fill = gender)) +
+p2 <- ggplot(pop_data, aes(x = "", fill = gender)) +
   geom_bar(width = 1) +
   coord_polar(theta = "y") +
   labs(title = "Gender Distribution of Population") +
@@ -157,7 +145,17 @@ ggplot(pop_data, aes(x = "", fill = gender)) +
   scale_fill_manual(values = c("lightpink", "lightblue", "purple"))
 ```
 
-Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. @fig-pop-age-pie and @fig-pop-gen-pie show the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
+```{r}
+#| label: fig-pop-gen-age-pie
+#| fig-cap: "Distributions of age groups and genders in the simulated population dataset, shown as pie charts. Colour corresponds to the category, and size of the slice corresponds to the proportion of the population within that category. All marginal groups are represented."
+#| fig-pos: "H"
+#| fig-width: 6
+#| fig-asp: 0.7
+
+p1 + p2
+```
+
+Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. @fig-pop-gen-age-pie show the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
 
 #### Build Mosaic Plot
 
@@ -198,7 +196,7 @@ upset_pop_data <- pop_data %>%
 
 ```{r}
 #| label: fig-pop-ups
-#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated population dataset"
+#| fig-cap: "Relationship between age and gender in the population shown as an UpSet plot. Bar heights indicate the number of observations within each intersection. All intersections are present, with the largest being between the 30-44 age group and the female gender, followed by 30-44 and male."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -243,7 +241,7 @@ sur_select <- sur_data %>%
 
 ```{r}
 #| label: fig-sur-mos
-#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated survey sample dataset"
+#| fig-cap: "Relationship between age and gender in the survey sample shown as a mosaic plot. Colour indicates gender. Width of the bars correspond to the count within the category. All intersections still present, though the distribution has shifted, with some groups being more or less represented than before."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -280,7 +278,7 @@ upset_sur_data <- sur_select %>%
 
 ```{r}
 #| label: fig-sur-ups
-#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated survey sample dataset"
+#| fig-cap: "Relationship between age and gender in the survey sample shown as an UpSet plot. Bar heights indicate the number of observations within each intersection. All intersections are still present, though the distribution has shifted, though the intersections between the 30-44 age group and male and female genders remain among the largest."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -304,8 +302,8 @@ upset(
 quota_df <- data.frame(
   category = c(rep("Age", 4), rep("Gender", 3)),
   name     = c("18-29", "30-44", "45-64", "65+", "Male", "Female", "Non-binary"),
-  min      = c(6, 8, 9, 7, 14, 14, 2),
-  max      = c(6, 8, 9, 7, 14, 14, 2)
+  min      = c(7, 9, 8, 6, 14, 14, 2),
+  max      = c(7, 9, 8, 6, 14, 14, 2)
 )
 
 quota_df
@@ -327,10 +325,15 @@ write_csv(sur_select, here("data/pool.csv"))
 
 panel_ids <- c(33, 34,	234, 235,	340,	349,	351,	407,	410,	424,	426,	440,	470,	488,	514,	515,	602,	615,	643,	684,	689,	742,	755,	840,	847,	913,	939,	957,	958,	980)
 
+panel_ids2 <- c(8,	94,	115,	117,	120,	196,	213,	358,	404,	431,	451,	466,	555,	568,	621,	659,	677,	701,	713,	792,	802,	840,	861,	883,	943,	948,	949,	958,	970,	974)
+
 # Filter for selected panel members
 
 pan_select <- sur_select %>%
   filter(pool_member_identifier %in% panel_ids)
+
+pan_select2 <- sur_select %>%
+  filter(pool_member_identifier %in% panel_ids2)
 ```
 
 
@@ -340,7 +343,7 @@ pan_select <- sur_select %>%
 
 ```{r}
 #| label: fig-pan-mos
-#| fig-cap: "Mosaic plot showing the distribution of age groups across gender in the simulated selected panel dataset"
+#| fig-cap: "Relationship between age and gender in the selected panel shown as a mosaic plot. Colour indicates gender. Width of the bars correspond to the count within the category. Seven intersections are now not present, and the distribution has shifted significantly from the population and survey sample datasets."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -375,7 +378,7 @@ upset_pan_data <- pan_select %>%
 
 ```{r}
 #| label: fig-pan-ups
-#| fig-cap: "UpSet plot showing the counts of intersections of age groups across gender in the simulated selected panel dataset"
+#| fig-cap: "Relationship between age and gender in the selected panel shown as an UpSet plot. Bar heights indicate the number of observations within each intersection. Level of representation has significantly decreased, with a number of intersections, including 30-44 and male, now missing."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -393,13 +396,7 @@ upset(
 #### Demographic Summary (Pie Charts)
 
 ```{r}
-#| label: fig-pan-age-pie
-#| fig-cap: "Pie chart showing the distribution of age groups in the simulated selected panel dataset"
-#| fig-pos: "H"
-#| fig-width: 4
-#| fig-asp: 0.825
-
-ggplot(pan_select, aes(x = "", fill = Age)) +
+p3 <- ggplot(pan_select, aes(x = "", fill = Age)) +
   geom_bar(width = 1) +
   coord_polar(theta = "y") +
   labs(title = "Age Distribution of Population") +
@@ -408,13 +405,7 @@ ggplot(pan_select, aes(x = "", fill = Age)) +
 ```
 
 ```{r}
-#| label: fig-pan-gen-pie
-#| fig-cap: "Pie chart showing the distribution of genders in the simulated selected panel dataset"
-#| fig-pos: "H"
-#| fig-width: 4
-#| fig-asp: 0.825
-
-ggplot(pan_select, aes(x = "", fill = Gender)) +
+p4 <- ggplot(pan_select, aes(x = "", fill = Gender)) +
   geom_bar(width = 1) +
   coord_polar(theta = "y") +
   labs(title = "Gender Distribution of Population") +
@@ -422,9 +413,20 @@ ggplot(pan_select, aes(x = "", fill = Gender)) +
   scale_fill_manual(values = c("lightpink", "lightblue", "purple"))
 ```
 
-Bringing this back to the pie chart example from earlier, @fig-pan-age-pie and @fig-pan-gen-pie are notably identical to the population pie charts, as the marginal distributions of age and  gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
+```{r}
+#| label: fig-pan-gen-age-pie
+#| fig-cap: "Pie chart showing the distribution of genders in the simulated population dataset"
+#| fig-pos: "H"
+#| fig-width: 6
+#| fig-asp: 0.7
+
+p3 + p4
+```
+
+Bringing this back to the pie chart example from earlier, @fig-pan-gen-age-pie are notably almost identical to the population pie charts (with difference as result of rounding), as the marginal distributions of age and gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
 
 This example is the crux of why sortition performance must be visually evaluated at the intersectional level, prior to any sort of deliberation or decision-making process, as it can reveal significant representativeness issues that may not be apparent from summary statistics alone, and which may impact the legitimacy and quality of the panel's outcomes. As, despite the fact that the panel seen in this case meets all marginal quotas, it is not representative of the population in a meaningful way, and may not be able to provide the intended benefits of sortition as a result. For this reason, we will be investigating ways to benchmark performance through visualisation, to make sure selected panels are representative before they are used for deliberation.
 
 ## Research Plan
 
+![Timeline](Timeline.png)
