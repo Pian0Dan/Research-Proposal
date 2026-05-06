@@ -83,13 +83,17 @@ As the main focus of this paper is visualising algorithmic performance, we will 
 
 Our specific test cases will be:
 
-- Populations (N) of size 1000, 5000, 10000, and 50000
+- Populations (N) of size 10000, 50000, 100000
 
-- Traits of interest (k) of 3 and 5, as these are common in practice
+- Contact rate (population subset) of 10%, 30% and 50%, to show how the algorithm performs with different levels of data availability, and how this impacts representativeness
+
+- Selected panel sizes (k) of 30 and 50, as these are common in practice
+
+- Traits of interest (m) of 3 and 5, as these are common in practice
 
 - Population distributions of Uniform, Gaussian, and Beta, to show how the algorithm performs with different levels of skew and complexity
 
-- Uniform and variable response rates of 10%, 30%, and 50%, to show how the algorithm performs when different groups are more or less likely to respond
+- Uniform and variable response rates of 1%, 3%, and 5%, to show how the algorithm performs under commonly observed response rates, and when different groups are more or less likely to respond
 
 - Extreme cases where one or more groups are particularly small (e.g. 1% of the population) or large (e.g. 80% of the population), to show how the algorithm performs when certain groups are more or less likely to be represented
 
