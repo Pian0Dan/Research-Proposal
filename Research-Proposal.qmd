@@ -169,7 +169,7 @@ p2 <- ggplot(pop_data, aes(x = "", fill = gender)) +
 p1 + p2
 ```
 
-Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. @fig-pop-gen-age-pie show the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
+Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. @fig-pop-gen-age-pie shows the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
 
 #### Build Mosaic Plot
 
@@ -437,7 +437,7 @@ p4 <- ggplot(pan_select, aes(x = "", fill = Gender)) +
 p3 + p4
 ```
 
-Bringing this back to the pie chart example from earlier, @fig-pan-gen-age-pie are notably almost identical to the population pie charts (with difference as result of rounding), as the marginal distributions of age and gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
+Bringing this back to the pie chart example from earlier, @fig-pan-gen-age-pie is notably almost identical to the population pie charts (with difference as result of rounding), as the marginal distributions of age and gender are the same across the population and selected panel datasets, even though we know the intersectional distributions are not, thanks to the mosaic and UpSet plots.
 
 This example is the crux of why sortition performance must be visually evaluated at the intersectional level, prior to any sort of deliberation or decision-making process, as it can reveal significant representativeness issues that may not be apparent from summary statistics alone, and which may impact the legitimacy and quality of the panel's outcomes. As, despite the fact that the panel seen in this case meets all marginal quotas, it is not representative of the population in a meaningful way, and may not be able to provide the intended benefits of sortition as a result. For this reason, we will be investigating ways to benchmark performance through visualisation, to make sure selected panels are representative before they are used for deliberation.
 
