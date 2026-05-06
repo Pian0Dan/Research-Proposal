@@ -101,7 +101,7 @@ As the algorithms are not defined to inspect presence of particular intersection
 
 ## Small test case
 
-To demonstrate the visualisation process and the necessity of this study, we will create a small test case with a population of 1000 individuals, with two traits of interest: age and gender. The age groups will be 18-29, 30-44, 45-64, and 65+, with proportions of 25%, 30%, 25%, and 20% respectively. The gender groups will be 48% male, 48% female, and 4% non-binary. We will follow the methodology outlined above to simulate the population, survey sample, and selected panel, with an assumed response rate of 30% across all groups (for simplicity), and a selected panel size of 30. These will then be visualised.
+To demonstrate the visualisation process and the necessity of this study, we will create a small test case with a population of 1000 individuals, with two traits of interest: age and gender. The age groups will be 18-29, 30-44, 45-64, and 65+, with proportions of 25%, 30%, 25%, and 20% respectively. The gender groups will be 48% male, 48% female, and 4% non-binary. We will follow the methodology outlined above to simulate the population, survey sample (foregoing subsetting of population, to keep the test small), and selected panel, with an assumed response rate of 30% across all groups (for simplicity), and a selected panel size of 30. These will then be visualised.
 
 ```{r}
 #|echo: false
