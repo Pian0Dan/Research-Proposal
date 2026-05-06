@@ -81,6 +81,20 @@ There has been little done to showcase what this algorithm actually looks like, 
 
 As the main focus of this paper is visualising algorithmic performance, we will follow a simulation study method to have full control over the data used. The study will construct an example "population", with a set number of traits of interest, for which we will create a set number of observations for each possible response type (e.g. a number of males, a number of females and a number of non-binary people for the gender trait, and so on for other traits). These will then be shuffled and combined to form the individual observations within the simulated population. From this, a "survey sample" will be selected at random with varying and adjustable assumed response rates. This sample will then be fed into the publicly accessible Panelot sortition interface (based on @Flanigan2021FairAF LexiMin) to run selection lottery, where a specific panel will be selected with a set seed for reproducibility, then pulled back for comparison against the distributions at previous steps. The outputs of each step will be visualised with mosaic plots [@jeppsonGeneralizedMosaicPlots2023] and UpSet plots [@UpSetR] to show the distribution of traits and intersections at each stage, as well as pie charts to show the marginal distributions of traits and how these would be superficially compared in practice.
 
+Our specific test cases will be:
+
+- Populations (N) of size 1000, 5000, 10000, and 50000
+
+- Traits of interest (k) of 3 and 5, as these are common in practice
+
+- Population distributions of Uniform, Gaussian, and Beta, to show how the algorithm performs with different levels of skew and complexity
+
+- Uniform and variable response rates of 10%, 30%, and 50%, to show how the algorithm performs when different groups are more or less likely to respond
+
+- Extreme cases where one or more groups are particularly small (e.g. 1% of the population) or large (e.g. 80% of the population), to show how the algorithm performs when certain groups are more or less likely to be represented
+
+After visualising the outputs of the algorithm across these different scenarios, we will then hope to establish a dashboard that will help guide quota constraint choices and strengthen representativeness. This will be designed to allow users to input their population and survey sample data, alongside their Panelot-generated lottery output and a specific seed, then visualise the distribution of traits and intersections in the selected panel against the population, to make it easier to assess representative performance across panel selections.
+
 ## Expected results
 
 As the algorithms are not defined to inspect presence of particular intersections, it is expected that there will be no way to ensure a certain "type" of person (beyond defined marginal categories) will be present within the selected panel. As such, it is expected that there will be some extreme case panel iterations with entirely missing population-observed intersections.
