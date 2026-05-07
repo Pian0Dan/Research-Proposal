@@ -14,7 +14,7 @@ format: report-pdf
 \clearpage
 \pagenumbering{arabic}
 
-# \huge Are current sortition methods creating representative panels? A framework analysis {.unnumbered}
+# \huge Are current sortition methods creating representative panels? A framework analysis. {.unnumbered}
 
 Author: Daniel Leo Loza (B.Bus, AMusA)
 
@@ -48,7 +48,7 @@ library(patchwork)
 
 ## Topic
 
-This thesis aims to evaluate whether current sortition methods lead to representative panels in practice. Through simulation and visualisation of algorithm performance, we will examine whether current tools are producing panels that are representative, and offer a way to implement this in practice.
+This thesis aims to evaluate whether current sortition methods lead to representative panels in practice. Through simulation and visualisation of algorithm performance, we will examine whether current tools are producing panels that are representative, and offer a way to assess representativeness in practice before deliberation.
 
 ## Background and Motivation
 
@@ -172,7 +172,7 @@ p2 <- ggplot(pop_data, aes(x = "", fill = Gender)) +
 p1 + p2
 ```
 
-Industry practitioners often use pie charts to visualise the distribution of traits in the population, as they are simple and easy to understand. However, it is important to note that by construction, pie charts merely show the margins within a dataset. @fig-pop-gen-age-pie shows the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
+Industry practitioners often use pie charts and similar graphics to visualise the distribution of traits in the population, as they are simple and easy to understand. However, it is important to note that, by construction, pie charts merely show the margin observations within a dataset. @fig-pop-gen-age-pie shows the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
 
 #### Build Mosaic Plot
 
@@ -229,7 +229,7 @@ upset(
 
 @fig-pop-ups shows the UpSet plot of the population dataset, which demonstrates the counts of intersections of age groups across gender. The plot shows that the largest intersection is between the 30-44 age group and the female gender, followed by males for the same age group. A representative panel would contain these intersections.
 
-### Visualising survey sample
+### Visualising Survey Sample
 
 ```{r}
 # Simulating survey
@@ -352,7 +352,7 @@ pan_select2 <- sur_select %>%
   filter(pool_member_identifier %in% panel_ids2)
 ```
 
-### Visualising panel sample
+### Visualising Panel Sample
 
 #### Mosaic Plot
 
@@ -437,7 +437,7 @@ p4 <- ggplot(pan_select, aes(x = "", fill = Gender)) +
 p3 + p4
 ```
 
-The use of pie charts and other simple visualisation tools, despite their popularity among stakeholders due to their simplicity, is misleading in this situation. @fig-pan-gen-age-pie is notably almost identical to the population pie charts (with difference as result of rounding) in @fig-pop-gen-age-pie, as the marginal distributions of age and gender are the same across the population and selected panel datasets. However, from @fig-pan-mos and @fig-pan-ups, younger male and non-binary, and older female individuals are not contained within the selected panel, which means it is not representative of the population.
+The use of pie charts and other simple graphics, despite their popularity among stakeholders due to their simplicity, is misleading in this situation. @fig-pan-gen-age-pie is notably almost identical to the population pie charts (with difference as result of rounding) in @fig-pop-gen-age-pie, as the marginal distributions of age and gender are the same across the population and selected panel datasets. However, from @fig-pan-mos and @fig-pan-ups, younger male and non-binary, and older female individuals are not contained within the selected panel, which means it is not representative of the population.
 
 This example is the crux of why sortition performance must be visually evaluated at the intersectional level, prior to any sort of deliberation or decision-making process, as it can reveal significant representativeness issues that may not be apparent from summary statistics alone, and which may impact the legitimacy and quality of the panel's outcomes. While a panel may fulfil marginal quotas, it may not be representative of the population. Consequently, it may fail to deliver the core democratic benefits intended by the sortition process. For this reason, we will be investigating ways to benchmark performance through visualisation, to make sure selected panels are representative before they are used for deliberation.
 
