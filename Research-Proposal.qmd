@@ -1,5 +1,5 @@
 ---
-title: "Are current sortition methods creating representative panels? A framework analysis"
+title: "Are you in the room? A framework for sortition and representation."
 author:
 - name: Daniel Leo Loza
   degrees: B.Bus, AMusA
@@ -14,7 +14,7 @@ format: report-pdf
 \clearpage
 \pagenumbering{arabic}
 
-# \huge Are current sortition methods creating representative panels? A framework analysis. {.unnumbered}
+# \huge Are you in the room? A framework for sortition and representation. {.unnumbered}
 
 Author: Daniel Leo Loza (B.Bus, AMusA)
 
