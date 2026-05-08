@@ -174,7 +174,7 @@ p1 + p2
 
 Industry practitioners often use pie charts and similar graphics to visualise the distribution of traits in the population, as they are simple and easy to understand. However, it is important to note that, by construction, pie charts merely show the margin observations within a dataset. @fig-pop-gen-age-pie shows the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
 
-#### Build Mosaic Plot
+#### Mosaic Plot
 
 ```{r}
 #| label: fig-pop-mos
@@ -194,7 +194,7 @@ ggplot(data = pop_data) +
 
 @fig-pop-mos shows the mosaic plot of the population dataset, which demonstrates the distribution of age groups across gender. The plot shows that the simulated population has more younger men than women, on average. It also shows that 12 intersections exist, connecting all traits from each category.
 
-#### Build UpSet Plot
+#### UpSet Plot
 
 ```{r}
 # Prep UpSet Plot Data
@@ -429,7 +429,7 @@ p4 <- ggplot(pan_select, aes(x = "", fill = Gender)) +
 
 ```{r}
 #| label: fig-pan-gen-age-pie
-#| fig-cap: "Pie chart showing the distribution of genders in the simulated population dataset"
+#| fig-cap: "Distributions of age groups and genders in the selected panel dataset, shown as pie charts. Colour corresponds to the category, and size of the slice corresponds to the proportion of the population within that category. All marginal groups are represented, and the distribution appears similar to the population pie charts, though this is misleading as it does not show the absence of certain intersections."
 #| fig-pos: "H"
 #| fig-width: 6
 #| fig-asp: 0.5
