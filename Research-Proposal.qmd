@@ -48,31 +48,31 @@ library(patchwork)
 
 ## Topic
 
-This thesis aims to evaluate whether current sortition methods lead to representative panels in practice. Through simulation and visualisation of algorithm performance, we will examine whether current tools are producing panels that are representative, and offer a way to assess representativeness in practice before deliberation.
+This thesis aims to evaluate whether current sortition methods lead to representative panels in practice. Through simulation of different population scenarios and visualisation of algorithm results, we will examine whether current tools are producing representative panels. From these findings, we will offer new ways to assess representativeness in practice before deployment of panels.
 
-## Background and Motivation
+## Background and motivation
 
-In a social landscape where the public is growing progressively disillusioned with its representation in politics [@landemoreOpinionNoShy2026], it is important to consider ways in which we can foster more inclusive decision-making practices. One way of achieving this, adopted recently by an increasing number of institutions, including the Parisian [@ParisCreatesPermanent], Irish [@walshDissatisfiedEngagedCitizen2021], and British Columbian [@wardExperimentPoliticalCommunication2008] governments, is using sortition to create panels that are more representative of the population for political discussions and deliberations. As a result, the need for fair and representative methods of building panels is only growing, and progress is being made in improving the structure of selective algorithms. However, there are still many challenges to overcome in order to ensure that these panels consistently achieve the level of representation that they set out to.
+In a social landscape where the public is growing progressively disillusioned with its representation in politics [@landemoreOpinionNoShy2026], it is important to consider ways in which we can foster more inclusive decision-making practices. One way of achieving this, adopted recently by an increasing number of institutions, including the Parisian [@ParisCreatesPermanent], Irish [@walshDissatisfiedEngagedCitizen2021], and British Columbian [@wardExperimentPoliticalCommunication2008] governments, is using sortition to create panels that are more representative of the population for political discussions and deliberations. As a result, the need for fair and representative methods of building panels is only growing, and progress is being made in improving the structure of selective algorithms. However, there are still many challenges to overcome in order to ensure that these panels consistently achieve the level of representation that they envision.
 
-Sortition is a method of selection that uses random sampling to create panels that should be descriptively representative of a population. It has been used in various contexts, reaching as far back as ancient Athens (where it was how jurors were selected), and now into modern times for citizens' assemblies, as mentioned prior. The idea is that by randomly selecting individuals from the population, we can create panels that are more representative and inclusive than those selected through traditional methods, like elections or open-ended surveys. Sortition also reduces dominance by elites or highly engaged groups, enabling broader participation across social classes [@Giuliani2025SortitionIP], making it more likely that decisions are in the relevant population's best interest.
+Sortition is a method of selection that uses random sampling to create panels that should be descriptively representative of a population. It has been used in various contexts, reaching as far back as ancient Athens (where it was how jurors were selected), and now into modern times for citizens' assemblies. The idea is that by randomly selecting individuals from the population, we can create panels that are more representative and inclusive than those selected through traditional methods, like elections or open-ended surveys. Sortition also reduces dominance by elites or highly engaged groups, enabling broader participation across social classes [@Giuliani2025SortitionIP], making it more likely that decisions are in the relevant population's best interest.
 
 One of the main roadblocks in sortition is ensuring that the selection process is transparent and fair, and that the panels are truly representative of the population in terms of demographics and perspectives. But this raises the questions of what it means to be fair, what it means to be representative, and how these look from a systematic perspective.
 
-As a process, sortition can be broken down into four stages: 1) defining the population and traits of interest, 2) requesting expressions of interest from a random subset of the population, 3) feeding respondents into a sortition algorithm, and 4) panel is selected and engaged for deliberation. Notably, there is currently no rigorous evaluation of representation achieved before a process is run. Additionally, each of these steps potentially introduces bias, impacting the representativeness of the panel. As such, it is crucial to measure how the level of representativeness (or *potential* representativeness) flows through each stage, and to understand how different factors may affect it.
+As a process, sortition can be broken down into four stages: 1) defining the population and traits of interest, 2) requesting expressions of interest from a random subset of the population, 3) feeding respondents into a sortition algorithm, and 4) panel selected and engaged for deliberation. Notably, there is currently no rigorous evaluation of representation achieved before a process is run. Additionally, each of these steps potentially introduces bias, impacting the representativeness of the panel. As such, it is crucial to measure how the level of representativeness (or *potential* representativeness) flows through each stage, and to understand how different factors may affect it.
 
-Sortition methods have been evolving over time. Prior to algorithmic means, panel selection was carried out through simple self-selection (response to survey/advertising) and proportional sampling to meet panel size requirements. As sortition began to grow more robust, the Legacy [@Flanigan2021FairAF] techniques started surfacing---these saw panels put together through simple choosing of respondents who met the most required "category" condition at any given moment, and would continue iterating until the required marginal counts were present in the selected panel. This led to situations of extreme selection likelihoods, if minorities existed---as members were selected indiscriminately of implied likelihood, meaning there were situations where an individual would potentially be selected 0% of the time. To counteract this, the more systematic algorithm "MaxiMin" was implemented [@baharavFairManipulationRobustTransparent2024]; seeking not only to meet panel quotas, but to raise the lowest individual's selection likelihood, to eliminate the 0% selection case, in order to improve representativeness. This, however, now presented the risk of likelihood manipulation, as selection was based more directly on the combination of all category responses given by an individual, rather than pure counts needed for the panel to be filled. As a result, the inverse function "MiniMax" was employed to reduce extreme cases on the other end---eliminating the 100% selection chance case by minimising maximal selection likelihood of any given individual, providing an approach that was more resistant and robust to coercion, but simultaneously reintroducing the potential 0% likelihood problem. Though robustness itself lies beyond the scope of this paper's aims, it is important to note the existence of MiniMax as an approach to the sortition problem, as it impacted further algorithmic development, and robustness as a goal presents an opportunity for further investigation.
+Sortition methods have been evolving over time. Prior to algorithmic means, panel selection was carried out through simple self-selection (response to survey/advertising) and proportional sampling to meet panel size requirements. As sortition began to grow more robust, the Legacy techniques [@Flanigan2021FairAF] started surfacing---these saw panels put together through simple choosing of respondents who met the most required "category" condition at any given moment, and would continue iterating until the required marginal counts were present in the selected panel. This led to situations of extreme selection likelihoods, if minorities existed---as members were selected indiscriminately of implied likelihood, meaning there were situations where an individual would potentially be selected 0% of the time. To counteract this, the more systematic algorithm "MaxiMin" was implemented [@baharavFairManipulationRobustTransparent2024]; seeking not only to meet panel quotas, but to raise the lowest individual's selection likelihood, with the aim of eliminating the 0% selection case, in order to improve representativeness. This, however, now presented the risk of likelihood manipulation, as selection was based more directly on the combination of all category responses given by an individual, rather than pure counts needed for the panel to be filled. As a result, the inverse function "MiniMax" was employed to reduce extreme cases on the other end---eliminating the 100% selection chance case by minimising maximal selection likelihood of any given individual, providing an approach that was more resistant and robust to coercion, but simultaneously reintroducing the potential 0% likelihood problem. Though robustness itself lies beyond the scope of this paper's aims, it is important to note the existence of MiniMax as an approach to the sortition problem, as it impacted further algorithmic development, and robustness as a goal presents an opportunity for further investigation.
 
 More recently, and of direct relevance to the current study, further iterations of MiniMax and MaxiMin, in the forms of "LexiMin" [@Flanigan2021FairAF] and "Goldilocks" [@baharavFairManipulationRobustTransparent2024], were established. These present more generally practical outcomes, with the former being used in industry at present. LexiMin takes the idea of MaxiMin and repeats it for every individual sequentially, maximising *all* individuals' likelihoods, rather than just those who sit at the absolute bottom. Thus, raising the selection likelihood floor for the participant pool overall. It is, however, like MaxiMin, vulnerable to manipulation (which remains beyond the scope of this paper)---leading into the development of the Goldilocks algorithm solution. Goldilocks aims to simultaneously raise the selection likelihood floor (eliminating the 0% selection chance and improving representativeness), as well as lower the ceiling (eliminating the 100% selection case and making the process more robust against manipulation). A tool for Goldilocks' use is in development at the time of the writing of this paper, and is expected to be made publicly available in the near future. As such, it will not be used for the current study, but may present an opportunity for further research.
 
 However, there is limited literature on the visualisations of the outputs of these algorithms. Additionally, it appears that none of these directly address or validate the presence of any particular intersections within the panels they produce, which presents a risk for insufficient representation.
 
-# Research Design
+# Research design
 
-This study hopes to develop visual tools to understand the LexiMin algorithm in order to:
+This study hopes to develop visual tools to diagnose the LexiMin algorithm in order to:
 
-1.  Demonstrate how it operates
-2.  Measure the level of representation it achieves
-3.  Investigate where and how it falls short
+1.  Demonstrate how it operates in a variety of controlled population and sampling conditions
+2.  Measure and summarise the level of representation achieved
+3.  Investigate where and how it falls short and propose some places for improvement
 
 There has been limited work done on visualising outputs of the LexiMin algorithm, which limits transparency and interpretability of the process. Additionally, we hope to assess the difference in effectiveness and performance across different sample sizes, population distributions, and extreme cases, as real-world communities can be complex, and optimal sortition should be able to capture this confidently. Within this, we also hope to observe the nature of intersections captured by the algorithm and how these are affected when certain trait groups are particularly small or large, or when response rates differ across groups. With these insights, we will then hope to establish a dashboard that will help guide quota constraint choices and strengthen representativeness.
 
@@ -98,11 +98,11 @@ Our specific test cases will be:
 
 After visualising the outputs of the algorithm across these different scenarios, we will then attempt to build a tool designed to allow users to input their population and survey sample data, alongside their Panelot-generated lottery output and a specific seed, then visualise the distribution of traits and intersections in the selected panel against the population, to make it easier to assess representative performance across panel selections.
 
-## Expected Results
+## Expected results
 
 As the algorithms are not defined to inspect presence of particular intersections, it is expected that there will be no way to ensure a certain "type" of person (beyond defined marginal categories) will be present within the selected panel. As such, it is expected that there will be some extreme case panel iterations with entirely missing population-observed intersections.
 
-## Small Test Case
+## Small test case
 
 To demonstrate the visualisation process and the necessity of this study, we will create a small test case with a population of 1000 individuals, with two traits of interest: age and gender. The age groups will be 18-29, 30-44, 45-64, and 65+, with proportions of 25%, 30%, 25%, and 20% respectively. The gender groups will be 48% male, 48% female, and 4% non-binary. We will follow the methodology outlined above to simulate the population (with an assumed 100% contact rate, to keep the test small), survey sample, and selected panel, with an assumed response rate of 30% across all groups (for simplicity), and a selected panel size of 30. These will then be visualised.
 
@@ -140,9 +140,9 @@ pop_data$pool_member_identifier <- 1:nrow(pop_data)
 pop_data <- pop_data[, c("pool_member_identifier", "Age", "Gender")]
 ```
 
-### Visualising Population
+### Population summary
 
-#### Demographic Summary (Pie Charts)
+#### Demographic summary (Pie Charts)
 
 ```{r}
 p1 <- ggplot(pop_data, aes(x = "", fill = Age)) +
@@ -164,7 +164,7 @@ p2 <- ggplot(pop_data, aes(x = "", fill = Gender)) +
 
 ```{r}
 #| label: fig-pop-gen-age-pie
-#| fig-cap: "Distributions of age groups and genders in the simulated population dataset, shown as pie charts. Colour corresponds to the category, and size of the slice corresponds to the proportion of the population within that category. All marginal groups are represented."
+#| fig-cap: "Illustration of current practice: pie charts of the distribution of traits. Here we show pie charts of age and gender, respectively. Colour indicates category. Age groups are relatively evenly represented, with slightly more mid-age members. Males and females are roughly equally represented, and non-binary is a small fraction but present."
 #| fig-pos: "H"
 #| fig-width: 6
 #| fig-asp: 0.5
@@ -174,11 +174,11 @@ p1 + p2
 
 Industry practitioners often use pie charts and similar graphics to visualise the distribution of traits in the population, as they are simple and easy to understand. However, it is important to note that, by construction, pie charts merely show the margin observations within a dataset. @fig-pop-gen-age-pie shows the distribution of age groups and genders in the simulated population dataset, respectively, as they would be shown to explain the population to a client or stakeholder.
 
-#### Mosaic Plot
+#### Mosaic plot
 
 ```{r}
 #| label: fig-pop-mos
-#| fig-cap: "Relationship between age and gender in the population shown as a mosaic plot. Colour indicates gender. Width of the bars correspond to the count within the category. Every combination contains observations."
+#| fig-cap: "Relationship between age and gender in the population shown as a mosaic plot. Colour indicates gender. Width of the bars correspond to the count within the category. Every combination of age and gender is present in similar proportions."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -194,7 +194,7 @@ ggplot(data = pop_data) +
 
 @fig-pop-mos shows the mosaic plot of the population dataset, which demonstrates the distribution of age groups across gender. The plot shows that the simulated population has more younger men than women, on average. It also shows that 12 intersections exist, connecting all traits from each category.
 
-#### UpSet Plot
+#### UpSet plot
 
 ```{r}
 # Prep UpSet Plot Data
@@ -213,7 +213,7 @@ upset_pop_data <- pop_data %>%
 
 ```{r}
 #| label: fig-pop-ups
-#| fig-cap: "Relationship between age and gender in the population shown as an UpSet plot. Bar heights indicate the number of observations within each intersection. All intersections are present, with the largest being between the 30-44 age group and the female gender, followed by 30-44 and male."
+#| fig-cap: "Relationship between age and gender in the population shown as an UpSet plot. Bar heights indicate the number of observations within each intersection. All intersections are present. The largest groups is 30-44 females, followed by 30-44 and males. The smallest group is non-binary over 65."
 #| fig-pos: "H"
 #| fig-width: 4
 #| fig-asp: 0.825
@@ -229,7 +229,7 @@ upset(
 
 @fig-pop-ups shows the UpSet plot of the population dataset, which demonstrates the counts of intersections of age groups across gender. The plot shows that the largest intersection is between the 30-44 age group and the female gender, followed by males for the same age group. A representative panel would contain these intersections.
 
-### Visualising Survey Sample
+### Summary of one sample
 
 ```{r}
 # Simulating survey
@@ -254,7 +254,7 @@ sur_select <- sur_data %>%
   filter(Responded == "Yes")
 ```
 
-#### Mosaic Plot
+#### Mosaic plot
 
 ```{r}
 #| label: fig-sur-mos
@@ -273,7 +273,7 @@ ggplot(data = sur_select) +
 
 @fig-sur-mos shows the mosaic plot of the survey sample dataset, which demonstrates the distribution of age groups across gender in the simulated survey sample. The plot shows that the distribution has changed from the population dataset, with some groups being more or less represented than before. For example, the genders among ages are now less balanced across all age groups.
 
-#### UpSet Plot
+#### UpSet plot
 
 ```{r}
 # Prep UpSet plot data
@@ -352,9 +352,11 @@ pan_select2 <- sur_select %>%
   filter(pool_member_identifier %in% panel_ids2)
 ```
 
-### Visualising Panel Sample
+### Summary of composition of one panel
 
-#### Mosaic Plot
+Here we have generated one panel from the sample of the population that responded, using Panelot. We use the same mosaic and UpSet plots used for the population and sample summaries, and also contrast these with the current practice of pie charts, to illustrate a potential problem.
+
+#### Mosaic plot
 
 ```{r}
 #| label: fig-pan-mos
@@ -373,7 +375,7 @@ ggplot(data = pan_select) +
 
 @fig-pan-mos shows the mosaic plot of the selected panel dataset, which demonstrates the distribution of age groups across gender in the simulated selected panel. By the time we reach this step, we can see that the distribution has changed significantly from the population dataset. In fact, this particular iteration presents an extreme case where all younger panel members are female, all older members are male, and all non-binary members are in the oldest group.
 
-#### UpSet Plot
+#### UpSet plot
 
 ```{r}
 # Prep UpSet Plot data
@@ -407,7 +409,7 @@ upset(
 
 @fig-pan-ups shows the UpSet plot of the selected panel dataset, which demonstrates the counts of intersections of age groups across gender in the simulated selected panel. Echoing the distribution shift shown in the mosaic plot, the UpSet plot shows that a number of intersections are now missing. This was, to some extent, expected for the non-binary group, as only two members of this group were going to be selected regardless, meaning at least two intersections would not be represented. However, the complete absence of all younger male and non-binary members, as well as all older female members is a signifcant deviation from the population and survey sample datasets, and demonstrates the risk of insufficient representation when intersections are not directly addressed by the selection process.
 
-#### Demographic Summary (Pie Charts)
+#### Demographic summary (Pie Charts)
 
 ```{r}
 p3 <- ggplot(pan_select, aes(x = "", fill = Age)) +
@@ -429,7 +431,7 @@ p4 <- ggplot(pan_select, aes(x = "", fill = Gender)) +
 
 ```{r}
 #| label: fig-pan-gen-age-pie
-#| fig-cap: "Distributions of age groups and genders in the selected panel dataset, shown as pie charts. Colour corresponds to the category, and size of the slice corresponds to the proportion of the population within that category. All marginal groups are represented, and the distribution appears similar to the population pie charts, though this is misleading as it does not show the absence of certain intersections."
+#| fig-cap: "Popular summary practice: distributions of age groups and genders in the selected panel dataset, shown as pie charts. Colour corresponds to the category, and size of the slice corresponds to the proportion of the population within that category. All marginal groups are represented, and the distribution appears similar to the population pie charts, though this is misleading as it does not show the absence of certain intersections."
 #| fig-pos: "H"
 #| fig-width: 6
 #| fig-asp: 0.5
@@ -445,16 +447,20 @@ This example is the crux of why sortition performance must be visually evaluated
 
 ## Research Plan
 
-| Month     | Goal                           |
-|-----------|--------------------------------|
-| June      | Establish data cases           |
-|           | Run simulation                 |
-|           | Begin visualising              |
-| July      | Consolidate visualisations     |
-|           | Explore framework/tool options |
-| August    | Build tool                     |
-|           | Consider further applications  |
-| September | Evaluate tool                  |
-|           | Draft thesis                   |
-| October   | Second draft of thesis         |
-| November  | Final draft of thesis          |
+| Month     | Goal                                                    |
+|-----------|---------------------------------------------------------|
+| June      | Establish data cases                                    |
+|           | Simulate data sets with the chosen variety of scenarios |
+|           | Begin visualising                                       |
+| July      | Consolidate visualisations                              |
+|           | Explore framework/tool options                          |
+| August    | Build dashboard package for algorithm evaluation        |
+|           | Consider further applications                           |
+| September | Evaluate tool                                           |
+|           | Draft thesis                                            |
+| October   | Second draft of thesis                                  |
+| November  | Final draft of thesis                                   |
+
+## Reproducibility
+
+To ensure results are reproducible, we will be using set seeds for all random processes, and will be sharing all code and data used in the study on a public GitHub repository for version control. Additionally, we will be using Quarto to ensure text matches computations (literate programming).
