@@ -424,11 +424,11 @@ This example is the crux of why sortition performance must be visually evaluated
 ## Research Plan
 
 | Month | Goal |
-|----|----|
+|------------------------------------|------------------------------------|
 | June | Establish data cases |
 |  | Simulate data sets with the chosen variety of scenarios |
-|  | Begin visualising simulated datasets |
-| July | Consolidate visualisations |
+|  | Begin visualising simulated datasets with pie charts, mosaic plots, UpSet plots, and other plots, if identified as useful |
+| July | Consolidate useful visualisation methods ahead of framework development |
 |  | Explore framework/tool options |
 | August | Build dashboard package for algorithm evaluation |
 |  | Consider additional features/visualisation options for tools (descriptive/exploratory statistics) |
