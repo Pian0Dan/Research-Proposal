@@ -92,7 +92,7 @@ Our specific test cases will be:
 
 - Population distributions of Uniform, Gaussian, and Beta across traits, to show how the algorithm performs with different levels of skew and complexity
 
-- Uniform and variable survey response rates of 1%, 3%, and 5%, to show how the algorithm performs under commonly observed response rates, and when different groups are more or less likely to respond
+- Uniform and varied survey response rates of 1%, 3%, and 5%, to show how the algorithm performs under commonly observed response rates, and when different groups are more or less likely to respond
 
 - Extreme cases where one or more groups are particularly small (e.g. 1% of the population) or large (e.g. 80% of the population), to show how the algorithm performs when certain groups are more or less likely to be represented
 
