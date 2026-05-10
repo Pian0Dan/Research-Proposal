@@ -1,5 +1,5 @@
 ---
-title: "Are You in the Room? A Framework for Sortition and Representation"
+title: "Are you in the room? A framework for sortition and representation"
 author:
 - name: Daniel Leo Loza
   degrees: B.Bus, AMusA
@@ -439,4 +439,4 @@ This example is the crux of why sortition performance must be visually evaluated
 
 ## Reproducibility and Software
 
-To ensure results are reproducible, we will be using set seeds for all random processes, and will be sharing all code and data used in the study on a public GitHub repository for version control. Additionally, we will be using R code in Quarto to ensure text matches computations (literate programming), with the packages @tidyr, @tidyverse, @dplyr, @here, @readr, @ggplot2, @patchwork, @ggmosaic, and @UpSetR for data manipulation, storage and visualisation.
+To ensure results are reproducible, we will be using set seeds for all random processes, and will be sharing all code and data used in the study on a public GitHub repository (<https://github.com/Pian0Dan/Research-Proposal>) for version control. Additionally, we will be using R code in Quarto to ensure text matches computations (literate programming), with the packages @tidyr, @tidyverse, @dplyr, @here, @readr, @ggplot2, @patchwork, @ggmosaic, and @UpSetR for data manipulation, storage and visualisation.
