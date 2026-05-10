@@ -1,5 +1,5 @@
 ---
-title: "Are you in the room? A framework for sortition and representation."
+title: "Are You in the Room? A Framework for Sortition and Representation"
 author:
 - name: Daniel Leo Loza
   degrees: B.Bus, AMusA
